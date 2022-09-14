@@ -9,6 +9,7 @@ def opcionesText():
     os.system ("cls") 
     time.sleep(2)
     #os.system ("clear") Para linux
+    print ("--------------------------------------------------------------")
     print("==== INTELIGENCIA ARTIFICIAL ====\n")
     print("N - REINAS\n")   
     print("Opciones:\n")
@@ -16,6 +17,7 @@ def opcionesText():
     print("2 - Algoritmo de Las Vegas\n") 
     print("3 - Mínimo de conflictos\n")
     print("OTRO - Salir\n")   
+    print ("--------------------------------------------------------------")
 
 def menu():
     opcion = 0
