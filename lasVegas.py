@@ -4,6 +4,9 @@ import random
 #Variables para el tiempo de ejecucion del metodo las vegas 
 tiempoMax = tiempoIteracion = 0.0
 
+#Para determinar cantidad de resultados esperados
+modo = 0
+
 #variables para el calculo de posicion de las N reinas
 columnas = dominio = []
 tamanho = 0
@@ -11,12 +14,22 @@ tamanho = 0
 #Variable para contar cuantos estados expandidos
 estadosExpandidos = 0
 
-def introducirDatos():
-    global tamanho, tiempoMax, tiempoIteracion
+#Para determinar si graficar o no
+graficar = 0
 
-    print("Introducir un valor de N: ")
-    n = input()
-    tamanho = int(n)
+def introducirDatos():
+    global tamanho, tiempoMax, tiempoIteracion, modo, graficar
+
+    print ("--------------------------------------------------------------")
+    print ("Introduce el numero de reinas:")
+    
+    # Solo se puede como minimo con 4 reinas
+    n = int(input())
+    while(n<4):
+        print("Valores incorrecto, ingrese un valor")
+        n = int(input())
+
+    tamanho = n
 
     print("Tiempo maximo de espera ( en segundos ): ")
     n = input()
@@ -25,6 +38,18 @@ def introducirDatos():
     print("Tiempo maximo de espera en cada iteracion ( en segundos ): ")
     n = input()
     tiempoIteracion = float(n)
+
+    print("Desea encontrar la mayor cantidad de soluciones en", tiempoMax ,"segundos o solo una? 1. Todas 2. Una Otro. incorrecto")
+    modo = int(input())
+    while(not (modo== 1 or modo==2)):
+        print("Debe ingresar una opcion valida: 1 o 2")
+        modo = int(input())
+
+    print("Desea graficar las soluciones encontradas? 1. Si 2. No. Otro. incorrecto")
+    graficar = int(input())
+    while(not (graficar== 1 or graficar==2)):
+        print("Debe ingresar una opcion valida: 1 o 2")
+        graficar = int(input())
 
 
 def initNReinas():
@@ -35,12 +60,13 @@ def initNReinas():
     columnas = []
 
 def calcularNReinas():
-    global dominio,columnas,tiempoMax,estadosExpandidos
+    global dominio,columnas,tiempoMax,estadosExpandidos, modo, graficar
 
     # Carga de datos
     introducirDatos()
 
     # Variables para controlar la finalizacion del algoritmo
+    sinSolucion = False
     solucion = None
     inicio = fin = time.time()
     
@@ -51,11 +77,14 @@ def calcularNReinas():
         solucion = insertarReina(dominio, columnas, time.time())
         # Si se encontro una solucion
         if solucion != None:
-            print(solucion)
+            imprimirFormateado(solucion,len(solucion))
+            if modo == 1:
+                solucion = None
+                sinSolucion = True
 
         fin = time.time()
 
-    if solucion == None:
+    if sinSolucion:
         print("No se encontro una solucion")
 
     print("Estados explorados:",estadosExpandidos)
@@ -127,3 +156,17 @@ def verificarRestricciones(fila, columna, reinaFila, reinaColumna):
     if div != 1 and div != -1 :
         return True
     return False
+
+
+def imprimirFormateado(solucion,n):
+    global graficar
+    print(solucion)
+    if graficar == 1:
+        for x in range(n):
+            for i in range(n):
+                if solucion[i] == x+1:
+                    print ("X", end=" ")
+                else:
+                    print ("--", end=" ")
+            print ("\n")
+        print ("\n")

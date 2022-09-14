@@ -24,7 +24,7 @@ def imprimirFormateado(solucion,n):
     print(solucion)
     for x in range(n):
         for i in range(n):
-            if solucion[x] == i+1:
+            if solucion[i] == x+1:
                 print ("X", end=" ")
             else:
                 print ("--", end=" ")
