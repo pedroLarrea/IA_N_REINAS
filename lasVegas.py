@@ -1,5 +1,6 @@
 import time
 import random
+import sys
 
 #Variables para el tiempo de ejecucion del metodo las vegas 
 tiempoMax = tiempoIteracion = 0.0
@@ -31,6 +32,8 @@ def introducirDatos():
 
     tamanho = n
 
+    sys.setrecursionlimit(2000)
+
     print("Tiempo maximo de espera ( en segundos ): ")
     n = input()
     tiempoMax = float(n)
@@ -60,32 +63,47 @@ def initNReinas():
     columnas = []
 
 def calcularNReinas():
-    global dominio,columnas,tiempoMax,estadosExpandidos, modo, graficar
+    global dominio,columnas,tiempoMax,estadosExpandidos, modo
 
     # Carga de datos
     introducirDatos()
 
     # Variables para controlar la finalizacion del algoritmo
-    sinSolucion = False
+    sinSolucion = True
     solucion = None
     inicio = fin = time.time()
-    
+    cantidadSoluciones = 0
+    solucionesEncontradas = []
+
     # Si no encuentra una solucion que pruebe con otros valores mientras aun le queda tiempo de ejecucion
     while fin - inicio < tiempoMax and solucion == None:
         # Inicio del algoritmo
         initNReinas()
         solucion = insertarReina(dominio, columnas, time.time())
-        # Si se encontro una solucion
-        if solucion != None:
+        # Si se encontro una solucion y no es repetida
+        if solucion != None and solucion not in solucionesEncontradas:
+            # Agregar a la lista de respuestas conocidas
+            solucionesEncontradas.append(solucion)
+
+            # Cantidad de respuestas encontradas
+            cantidadSoluciones += 1
+
+            # Imprimir solucion
             imprimirFormateado(solucion,len(solucion))
-            if modo == 1:
-                solucion = None
-                sinSolucion = True
+
+            # Bandera para verificar si se ha encontrado una solucion
+            sinSolucion = False
+        
+        # Para continuar con la ejecucion si es que elegio 'Todas'
+        if solucion != None and modo == 1:
+            solucion = None
 
         fin = time.time()
 
     if sinSolucion:
         print("No se encontro una solucion")
+    else:
+        print("Se han encontrado: ",cantidadSoluciones)
 
     print("Estados explorados:",estadosExpandidos)
     print("Tiempo transcurrido : ", fin - inicio," segundos")
@@ -111,7 +129,10 @@ def insertarReina(dominio, columnas, inicioIteracion):
             
             # poscion aleatoria
             random.seed(time.time())
-            indice = random.randint(0, len(sinProbar)-1)
+            if len(sinProbar) > 1:
+                indice = random.randint(0, len(sinProbar)-1)
+            else:
+                indice = 0
             posicion = sinProbar[indice]
 
             #Se elimina de la lista de posciones que aun no se probaron
