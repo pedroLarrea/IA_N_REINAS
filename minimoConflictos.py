@@ -22,23 +22,31 @@ def main():
     tablero.imprimirTablero()
 
     print("problemas en casillas")
-    #tablero.imprimirProblemas()
-    tablero.updateTableroProblemas(-1, -1)#-1 ambos parametros para inicializar el tablero
+    tablero.imprimirProblemas()
+    tablero.updateTableroProblemas(-1, -1, -1)#-1 ambos parametros para inicializar el tablero
     tablero.imprimirProblemas()
     #print("longitud filas: ", len(tablero.filas))
     #tablero.imprimirProblemas()
     #print("wtf")
-
-
     
+    
+    #'ciclito' de saltos y movimientos
+    """
+    while tablero.esSolucion()==False:
+        #hacer el proceso de movimientos
+        pass
+
+    tablero.salidaResultado()#tira tu salida
+    """
+
+
+
+
     
 
 main()
         
         
-        
-        
-
 
 
 
