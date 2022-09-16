@@ -35,19 +35,19 @@ def backtracking(solucion, etapa, n, primerResult, encontrado):
     response = True
     while solucion[etapa] < n:
         solucion[etapa] = solucion[etapa] + 1
-        if(etapa != n-1):
-            if (not backtracking(solucion, etapa+1, n, primerResult, encontrado)):
-                encontrado = True
-                break
-        elif(etapa==n-1):
-            if (esSolucion(solucion,etapa)):
-                #Si solo se busca el primer resultado
-                if(primerResult and encontrado==False):
-                    encontrado = True
-                    imprimirFormateado(solucion,n)
-                    break
-                else:
-                    imprimirFormateado(solucion,n)
+        if(esSolucion(solucion,etapa)):    
+            if(etapa != n-1):
+                    if (not backtracking(solucion, etapa+1, n, primerResult, encontrado)):
+                        encontrado = True
+                        break
+            elif(etapa==n-1):
+                    #Si solo se busca el primer resultado
+                    if(primerResult and encontrado==False):
+                        encontrado = True
+                        imprimirFormateado(solucion,n)
+                        break
+                    else:
+                        imprimirFormateado(solucion,n)
     solucion[etapa] = 0
     if(primerResult and encontrado):
         response = False
