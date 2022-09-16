@@ -9,14 +9,15 @@ def generarDominio(n):
 
 
 
-def main():
-    print("ingrese valor de n:")
+def calcularNReinas():
+    print ("--------------------------------------------------------------")
+    print ("Introduce el numero de reinas:")
     n=int(input())
-    print("dominio valores: ")
+
+    print("Dominio de valores: ")
     dominio=generarDominio(n)
     print(dominio)
     
-
     tablero=Tablero(n, dominio)
     print("tablero:")
     tablero.imprimirTablero()
@@ -38,14 +39,6 @@ def main():
 
     tablero.salidaResultado()#tira tu salida
     """
-
-
-
-
-    
-
-main()
-        
         
 
 

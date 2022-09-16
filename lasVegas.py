@@ -79,7 +79,8 @@ def calcularNReinas():
     while fin - inicio < tiempoMax and solucion == None:
         # Inicio del algoritmo
         initNReinas()
-        solucion = insertarReina(dominio, columnas, time.time())
+        tiempo = time.time()
+        solucion = insertarReina(dominio, columnas, tiempo)
         # Si se encontro una solucion y no es repetida
         if solucion != None and solucion not in solucionesEncontradas:
             # Agregar a la lista de respuestas conocidas

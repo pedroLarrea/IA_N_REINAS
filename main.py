@@ -7,7 +7,7 @@ import minimoConflictos
 ## Menu para poder elegir que algoritmo ejecutar
 def opcionesText():
     os.system ("cls") 
-    time.sleep(2)
+    time.sleep(1)
     #os.system ("clear") Para linux
     print ("--------------------------------------------------------------")
     print("==== INTELIGENCIA ARTIFICIAL ====\n")
@@ -20,22 +20,23 @@ def opcionesText():
     print ("--------------------------------------------------------------")
 
 def menu():
-    opcion = 0
-    while opcion != -1:
+    continuar = True
+    while continuar:
             opcionesText()
             print("Introduzca un valor: ") 
             opcion = input()
             if(opcion == '1' ):
                 backtracking.calcularNReinas()
-                opcion = -1
             elif(opcion == '2'):
                 lasVegas.calcularNReinas()
-                opcion = -1
             elif(opcion == '3'):
                 minimoConflictos.calcularNReinas()
-                opcion = -1
             else:
-                print("No se ha seleccionado ninguna opcion...")
-                opcion = -1
+                print("Hasta la proxima!...")
+                continuar = False
+
+            if continuar:
+                print("Presione enter para continuar...")
+                input()
 
 menu()

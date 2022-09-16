@@ -170,7 +170,8 @@ class Tablero:
         print("[", end=" ")
         for c in range(0, len(self.filas), 1):
             print("", self.filas[c].columna, end=" ")
-        print("]")    
+        print("]")
+            
         
           
             
