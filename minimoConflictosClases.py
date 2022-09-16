@@ -1,9 +1,10 @@
-import random   
+import random
+from xmlrpc.client import MAXINT, MININT   
     
 #clase fila, tiene la posicion de donde esta una reina en cada fila y un arreglo que representa el nro de problemas de cada casilla
 class Fila:
     def __init__(self, n, columna):
-        self.problema=True #saber si la fila tiene problemas
+        #self.problema=True #saber si la fila tiene problemas
         self.columna=columna    #int, representa el numero de columna
         self.problemas=[]
         for c in range(0, n, 1):
@@ -72,7 +73,6 @@ class Tablero:
             
     #recibe de parametro el nro de fila
     def verDiagPrincipal(self, fila, columna, sumando):
-        
         #valores iniciales
         fil=fila-1 #-1 pq el dominio va de 0 a n-1; le resto entonces 1 nomas
         col=columna-2#quita la columna del atributo columna; -2 pq el dominio de columna va de 1 a n(-1 ajuste, -1 )
@@ -110,12 +110,13 @@ class Tablero:
             fil+=1
             col-=1
         
-    #actualiza la concha de tu vieja
+
     def verColumna(self, fila, columna, sumando):
-        col=columna
+        
+        col=columna-1
         for c in range(0, len(self.filas), 1):
             #actualiza toda la columna menos el elemento de la fila en intercambio de reinas
-            if c!=col-1:
+            if c!=fila:
                 self.filas[c].problemas[col]+=sumando
                    
             
@@ -133,7 +134,6 @@ class Tablero:
                 self.verDiagPrincipal(c, col, 1)
                 self.verDiagSecundaria(c, col, 1)
             
-        #KILOMBO ACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
         else:
             #aqui cuando se mueve una reina en la fila    
             #se intercambia, de donde va y de donde viene, las casillas no se alteran
@@ -157,11 +157,15 @@ class Tablero:
             self.verDiagPrincipal(fila, colViene, -1)
             self.verDiagSecundaria(fila, colViene, -1)
             self.verColumna(fila, colViene, -1)
+            
+            
      
-     
+    #verifica que tenga solucion 
     def esSolucion(self):
         for c in range(0, len(self.filas), 1):
-            if self.filas[c].problema==True:
+            #si en la posicion en donde se encuentra la reina hay 0 problemas, esa reina tiene 0
+            col=self.filas[c].columna-1
+            if self.filas[c].problemas[col]!=0:
                 return False 
         return True
     
@@ -171,6 +175,55 @@ class Tablero:
         for c in range(0, len(self.filas), 1):
             print("", self.filas[c].columna, end=" ")
         print("]")
+        
+    #busca la reina con mas problemas
+    def seleccionarReina(self):
+        max=0
+        arregloPosibles=[]
+        for c in range(0, len(self.filas), 1):
+            col=self.filas[c].columna-1
+            #no tiene que agregar el que tiene 0 problemas
+            if(self.filas[c].problemas[col]==max and max!=0):
+                arregloPosibles.append(c)
+            elif(self.filas[c].problemas[col]>max):
+                max=self.filas[c].problemas[col]
+                arregloPosibles=[]
+                arregloPosibles.append(c)
+          
+        if len(arregloPosibles)!=0:
+            #random de las reinas[indice] que me vinieron, en caso de que tengan mismo numero de problemas
+            nroRand=random.randint(0, len(arregloPosibles)-1)
+            return arregloPosibles[nroRand]#retorna la fila con la reina con mas problemas
+        else:
+            return -1
+                
+        
+    
+    #retorna a donde mover(columna)
+    def verificarFila(self, fila):
+        col=self.filas[fila].columna-1
+        minValor=self.filas[fila].problemas[col]#indice del menor, de inicio es la misma columna
+        posReina=self.filas[fila].columna-1
+        for c in range(0, len(self.filas), 1):
+            #casillas que posean menor o igual de problemas y que no se evalue a si mismo
+            if(self.filas[fila].problemas[c]<=minValor and c!=posReina):
+                col=c
+                minValor=self.filas[fila].problemas[c]
+
+        return col+1
+    
+    
+    #busca la siguiente fila en una columna
+    def obtenerSgteFila(self, fila):
+        columna=self.filas[fila].columna
+        for c in range(0, len(self.filas), 1):
+            if self.filas[c].columna==columna and c!=fila:
+                return c
+            
+        return -1     
+        
+
+        
             
         
           
