@@ -107,7 +107,7 @@ def calcularNReinas():
 
         
         
-calcularNReinas()
+
 
 
 
