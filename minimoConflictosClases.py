@@ -201,16 +201,29 @@ class Tablero:
     
     #retorna a donde mover(columna)
     def verificarFila(self, fila):
+        arregloPosibles=[]
         col=self.filas[fila].columna-1
         minValor=self.filas[fila].problemas[col]#indice del menor, de inicio es la misma columna
         posReina=self.filas[fila].columna-1
         for c in range(0, len(self.filas), 1):
             #casillas que posean menor o igual de problemas y que no se evalue a si mismo
-            if(self.filas[fila].problemas[c]<=minValor and c!=posReina):
+            if(self.filas[fila].problemas[c]==minValor and c!=posReina):
+                arregloPosibles.append(c)
+            elif(self.filas[fila].problemas[c]<minValor and c!=posReina):
+                minValor=self.filas[fila].problemas[c]
+                arregloPosibles=[]
+                arregloPosibles.append(c)
+                
                 col=c
                 minValor=self.filas[fila].problemas[c]
-
-        return col+1
+                
+                
+        if len(arregloPosibles)!=0:
+            #random de las posibles columnas(el indice de los que tiene  valores iguales)
+            nroRandom=random.randint(0, len(arregloPosibles)-1)
+            return arregloPosibles[nroRandom]+1
+        else:
+            return col+1
     
     
     #busca la siguiente fila en una columna
