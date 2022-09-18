@@ -80,7 +80,7 @@ def calcularNReinas():
         # Inicio del algoritmo
         initNReinas()
         tiempo = time.time()
-        solucion = insertarReina(dominio, columnas, tiempo)
+        solucion = insertarReina(dominio,dominio, columnas, tiempo)
         # Si se encontro una solucion y no es repetida
         if solucion != None and solucion not in solucionesEncontradas:
             # Agregar a la lista de respuestas conocidas
@@ -110,7 +110,7 @@ def calcularNReinas():
     print("Tiempo transcurrido : ", fin - inicio," segundos")
     
 
-def insertarReina(dominio, columnas, inicioIteracion):
+def insertarReina(dominioLocal, dominio, columnas, inicioIteracion):
 
     global tiempoIteracion,estadosExpandidos
 
@@ -121,7 +121,7 @@ def insertarReina(dominio, columnas, inicioIteracion):
     resultado = None
 
     # Ponemos la reina en una poscion aleatoria simpre que aun exista posiciones que no probamos anteriormente
-    sinProbar = list(dominio)
+    sinProbar = list(dominioLocal)
     while sinProbar != [] and resultado == None:
 
         # Que continue probando a partir del estado inicial siempre que tenga tiempo para seguir iterando
@@ -142,20 +142,20 @@ def insertarReina(dominio, columnas, inicioIteracion):
             # Contar nuevo estado explorado
             estadosExpandidos += 1
 
-            # Verificamos que se puede insertar la reina en la posicion
-            if puedeInsertar(columnas,posicion):
-                # Agregamos la posicion de la nueva reina
-                columnas.append(posicion)
-                #  Quitamos la posicion actual del dominio para la siguiente iteracion
-                dominio.remove(posicion)
+            # Agregamos la posicion de la nueva reina
+            columnas.append(posicion)
+            #  Quitamos la posicion actual del dominio para la siguiente iteracion
+            dominio.remove(posicion)
 
-                resultado = insertarReina(dominio, columnas, time.time())
-                # Si no se encuentra la solucion
-                if resultado == None:
-                    # Volvemos a agregar la posicion que se habia quitado al dominio
-                    dominio.append(posicion)
-                    # Quitamos la posicion de la reina que habiamos agregado a la lista columna
-                    columnas.remove(posicion)
+            nextDominio = calcularDominioSiguiente(dominio,columnas)
+
+            resultado = insertarReina(nextDominio,dominio, columnas, time.time())
+            # Si no se encuentra la solucion
+            if resultado == None:
+                # Volvemos a agregar la posicion que se habia quitado al dominio
+                dominio.append(posicion)
+                # Quitamos la posicion de la reina que habiamos agregado a la lista columna
+                columnas.remove(posicion)
         else:
             return None            
     return resultado
@@ -169,6 +169,24 @@ def puedeInsertar(columnas, posicion):
             if not verificarRestricciones(posicion, len(columnas)+1, columnas[i], i+1) :
                 return False
     return True
+
+def calcularDominioSiguiente(Dominio, Columnas):
+    nextDominio = list(Dominio)
+    for id,d in enumerate(Columnas):
+        nextDominio = calcularIntersecciones(d,id+1,len(Columnas)+1,nextDominio)
+    return nextDominio;
+
+
+def calcularIntersecciones(FilaConocida,ColumnaConocida,Columna,Dominio): 
+    interseccion1 = Columna - ColumnaConocida + FilaConocida
+    if interseccion1 in Dominio:
+        Dominio.remove(interseccion1)
+    interseccion2 = ColumnaConocida - Columna + FilaConocida
+    if interseccion2 in Dominio:
+        Dominio.remove(interseccion2)
+    if FilaConocida in Dominio:
+        Dominio.remove(FilaConocida)
+    return Dominio
 
 def verificarRestricciones(fila, columna, reinaFila, reinaColumna):
     difFilas = fila - reinaFila
