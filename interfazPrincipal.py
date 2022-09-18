@@ -16,11 +16,11 @@ class interfaz:
                   [sg.InputText()],
                   [sg.Text('Tiempo de espera en segundos')],
                   [sg.InputText()],
-                  [sg.Text('Desea imprimir la tabla?:')],
+                  [sg.Text('Desea imprimir la tabla? 1-Si   2-No:')],
                   [sg.InputText()],
                   [sg.Button('Calcular', key='calcular'), sg.Button('Salir', key = 'salir')]
                   ]
-        self.window = sg.Window('N-Reinas', location=(800, 400))
+        self.window = sg.Window('N-Reinas', location=(800, 200))
         self.window.Layout(layout).Finalize()
         while True:
             event, values = self.window.Read()      #en 'values' se guarda los datos de las cajas de textos(lista)

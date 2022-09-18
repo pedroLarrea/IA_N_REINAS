@@ -188,12 +188,16 @@ class Tablero:
     
     #retorna el resultado final(imprime)
     def salidaResultado(self):
+        #retorno=""
         retorno=[]
         print("[", end=" ")
+        #retorno=retorno+"[ "
         for c in range(0, len(self.filas), 1):
             print("", self.filas[c].columna, end=" ")
             retorno.append(self.filas[c].columna)
+            #retorno=retorno+" "+str(self.filas[c].columna)+" "
         print("]")
+        #retorno=retorno+"]"
         return retorno
         
     #busca la reina con mas problemas

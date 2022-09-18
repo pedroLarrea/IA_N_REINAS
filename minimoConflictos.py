@@ -109,7 +109,7 @@ def calcularNReinas(n, tiempoEspera, graficar):
     print("cantidad de estados recorridos:")
     print(tablero.estados)
     resultados= []
-    resultados.append(tablero.salidaResultado)
+    resultados.append(tablero.salidaResultado())
     resultados.append(tablero.esSolucion())
     resultados.append(tFin-tInicio)
     resultados.append(tablero.estados)
