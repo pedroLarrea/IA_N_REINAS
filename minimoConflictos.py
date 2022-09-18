@@ -1,3 +1,4 @@
+from unittest import result
 from minimoConflictosClases import * #archivo de clases
 import time #calculo de tiempo
 
@@ -10,21 +11,24 @@ def generarDominio(n):
 
 
 
-def calcularNReinas():
+def calcularNReinas(n, tiempoEspera, graficar):
+    n=int(n)
+    tiempoEspera=int(tiempoEspera)
+    graficar=int(graficar)
     print ("--------------------------------------------------------------")
     
-    print ("Introduce el numero de reinas:")
+    #print ("Introduce el numero de reinas:")
     # Solo se puede como minimo con 4 reinas
-    n = int(input())
+    """n = int(input())
     while(n<4):
         print("Valores incorrecto, ingrese un valor")
         n = int(input())
+    """
+    #print("tiempo maximo de espera(segundos):")
+    #tiempoEspera=float(input())
     
-    print("tiempo maximo de espera(segundos):")
-    tiempoEspera=float(input())
-    
-    print("desea imprimir el tablero resultado?: 1-Si\t2-No")
-    graficar=int(input())
+    #print("desea imprimir el tablero resultado?: 1-Si\t2-No")
+    #graficar=int(input())
     
 
     #print("Dominio de valores: ")
@@ -104,6 +108,14 @@ def calcularNReinas():
     tablero.salidaResultado()#tira tu salida
     print("cantidad de estados recorridos:")
     print(tablero.estados)
+    resultados= []
+    resultados.append(tablero.salidaResultado)
+    resultados.append(tablero.esSolucion())
+    resultados.append(tFin-tInicio)
+    resultados.append(tablero.estados)
+    
+    return resultados
+    
 
         
         
