@@ -11,3 +11,5 @@
 - Min Conflicto
 ### para ejecutar el prugrama
 - main.py
+### dependencias externas
+- 'pip install pysimplegui'
