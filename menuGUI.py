@@ -26,7 +26,7 @@ class mainGUI:
                   [sg.Button('Mínimo de conflictos', key='minimoConflictosBtn')],
                   [sg.Button('Salir', key = 'salir')]
                   ]
-        self.window = sg.Window('N-Reinas', location=(800, 400))
+        self.window = sg.Window('N-Reinas', location=(300,250))
         self.window.Layout(layout).Finalize()
         while True:
             event, values = self.window.Read()

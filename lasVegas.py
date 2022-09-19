@@ -188,7 +188,7 @@ def calcularDominioSiguiente(Dominio, Columnas):
     nextDominio = list(Dominio)
     for id,d in enumerate(Columnas):
         nextDominio = calcularIntersecciones(d,id+1,len(Columnas)+1,nextDominio)
-    return nextDominio;
+    return nextDominio
 
 
 def calcularIntersecciones(FilaConocida,ColumnaConocida,Columna,Dominio): 
@@ -229,7 +229,9 @@ def FormatearLista(lista):
     solucion = ""
     for x in lista:
         solucion += "["
-        for fila in x:
-            solucion += str(fila) + ","
+        for idx,fila in enumerate(x):
+            solucion += str(fila)
+            if idx < len(x)-1 : 
+                solucion += ","
         solucion += "]\n"
     return solucion

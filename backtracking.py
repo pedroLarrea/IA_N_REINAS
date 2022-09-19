@@ -1,3 +1,12 @@
+import time
+
+#Variables para el tiempo de ejecucion del metodo backtracking
+tiempoFinal = 0.0
+inicio = 0 
+fin = 0
+
+#Variable para contar cuantos estados expandidos
+estadosExpandidos = 0
 listaDeSoluciones = []
 
 def Valido(solucion,etapa):
@@ -38,22 +47,24 @@ def imprimirFormateado(solucion,n):
     print ("\n")
     
 def backtracking(solucion, etapa, n, primerResult, encontrado):
+    global estadosExpandidos
     response = True
     while solucion[etapa] < n:
+        estadosExpandidos = estadosExpandidos + 1
         solucion[etapa] = solucion[etapa] + 1
-        if(etapa != n-1):
-            if (not backtracking(solucion, etapa+1, n, primerResult, encontrado)):
-                encontrado = True
-                break
-        elif(etapa==n-1):
-            if (esSolucion(solucion,etapa)):
-                #Si solo se busca el primer resultado
-                if(primerResult and encontrado==False):
-                    encontrado = True
-                    imprimirFormateado(solucion,n)
-                    break
-                else:
-                    imprimirFormateado(solucion,n)
+        if(esSolucion(solucion,etapa)):    
+            if(etapa != n-1):
+                    if (not backtracking(solucion, etapa+1, n, primerResult, encontrado)):
+                        encontrado = True
+                        break
+            elif(etapa==n-1):
+                    #Si solo se busca el primer resultado
+                    if(primerResult and encontrado==False):
+                        encontrado = True
+                        imprimirFormateado(solucion,n)
+                        break
+                    else:
+                        imprimirFormateado(solucion,n)
     solucion[etapa] = 0
     if(primerResult and encontrado):
         response = False
@@ -62,7 +73,9 @@ def backtracking(solucion, etapa, n, primerResult, encontrado):
     
     
 def inicializarMetodo(n, modo):
+    global estadosExpandidos, inicio, fin, tiempoFinal
     solucion = []
+    inicio = time.time()
     for i in range(n):
         solucion.append(0)
     etapa = 0
@@ -72,9 +85,14 @@ def inicializarMetodo(n, modo):
     else:
         #Una sola opcion
         backtracking(solucion, etapa, n, True, False)
+    print("Nodos expandidos: ", estadosExpandidos)
+    fin = time.time()
+    tiempoFinal = fin - inicio
+    print("Tiempo de ejecucion (s): ", tiempoFinal)
     return solucion
 
 def calcularNReinas():
+
     print ("--------------------------------------------------------------")
     print ("Introduce el numero de reinas:")
 
@@ -88,21 +106,23 @@ def calcularNReinas():
     while(not (modo== 1 or modo==2)):
         print("Debe ingresar una opcion valida: 1 o 2")
         modo = int(input())
-        
+    
     print("Haciendo Backtracking...")
     inicializarMetodo(n, modo)
 
 def inicializarMetodoGUI(n, modo):
-    global listaDeSoluciones
+    global estadosExpandidos, inicio, fin, tiempoFinal, listaDeSoluciones
     listaDeSoluciones = []
     inicializarMetodo(int(n),int(modo))
-    return FormatearLista(listaDeSoluciones)
+    return [ FormatearLista(listaDeSoluciones) , estadosExpandidos, tiempoFinal]
 
 def FormatearLista(lista):
     solucion = ""
     for x in lista:
         solucion += "["
-        for fila in x:
-            solucion += str(fila) + ","
+        for idx,fila in enumerate(x):
+            solucion += str(fila)
+            if idx < len(x)-1 : 
+                solucion += ","
         solucion += "]\n"
     return solucion

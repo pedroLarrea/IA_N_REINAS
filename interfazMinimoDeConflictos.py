@@ -19,11 +19,9 @@ class minimoDeConflictosGUI:
                   [sg.InputText()],
                   [sg.Text('Tiempo maximo de espera ( en segundos ):')],
                   [sg.InputText()],
-                  [sg.Text('Desea imprimir la tabla?:')],
-                  [sg.InputText()],
                   [sg.Button('Calcular', key='calcular')]
                   ]
-        self.window = sg.Window('N-Reinas', location=(800, 400))
+        self.window = sg.Window('N-Reinas', location=(400,250))
         self.window.Layout(layout).Finalize()
         estadoVentana = True
         while estadoVentana:
@@ -32,11 +30,11 @@ class minimoDeConflictosGUI:
                 estadoVentana = False
             if event == 'calcular':
                 if self.validar(values):
-                    resultados=calcularNReinas(values[0], values[1], values[2])  
+                    resultados=calcularNReinas(values[0], values[1], "1")  
                     mostrarResultados(resultados)
 
     def validar(self, values):
-        if len(values)<3:
+        if len(values)<2:
             sg.Popup('Faltan completar datos')
             return False
         elif int(values[0])<4:
@@ -54,9 +52,9 @@ class mostrarResultados:
                   [output],
                   [sg.Text('Resultado valido:'), sg.Text(resultados[1])],
                   [sg.Text('Tiempo utilizado:'), sg.Text(resultados[2])],
-                  [sg.Text('Estados recorridos:'), sg.Text(resultados[3])]
+                  [sg.Text('Estados expandidos:'), sg.Text(resultados[3])]
                   ]
-        self.window = sg.Window('N-Reinas', location=(800, 400))
+        self.window = sg.Window('N-Reinas', location=(400,250))
         self.window.Layout(layout).Finalize()
         output.update(resultados[0])
         event = self.window.Read()      

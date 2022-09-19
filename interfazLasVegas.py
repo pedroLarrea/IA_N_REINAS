@@ -20,11 +20,12 @@ class lasVegasGUI:
                   [sg.InputText()],
                   [sg.Text('Tiempo maximo de espera en cada iteracion ( en segundos ): ')],
                   [sg.InputText()],
-                  [sg.Text('Desea encontrar la mayor cantidad de soluciones o solo una? 1. Varios 2. Una')],
-                  [sg.InputText()],
+                  [sg.Text('Desea encontrar la mayor cantidad de soluciones o solo una')],
+                  [sg.Radio('1. Varios', "RADIO1", default=False)],
+                  [sg.Radio('2. Una', "RADIO1", default=True)],
                   [sg.Button('Calcular', key='calcular')]
                   ]
-        self.window = sg.Window('N-Reinas', location=(800, 400))
+        self.window = sg.Window('N-Reinas', location=(400,250))
         self.window.Layout(layout).Finalize()
         estadoVentana = True
         while estadoVentana:
@@ -34,7 +35,11 @@ class lasVegasGUI:
                 estadoVentana = False
             if event == 'calcular':
                 if self.validar(values):
-                    resultados = calcularNReinas(values[0], values[1], values[2],values[3])  
+                    if values[4]:
+                        modo = 2
+                    else:
+                        modo = 1
+                    resultados = calcularNReinas(values[0], values[1], values[2],modo)  
                     mostrarResultados(resultados)
                 
     def validar(self, values):
@@ -43,9 +48,6 @@ class lasVegasGUI:
             return False
         elif int(values[0])<4:
             sg.Popup('Ingrese un numero de reinas mayor a 3')
-            return False
-        elif int(values[3]) != 1 and int(values[3]) != 2:
-            sg.Popup('Ingrese un modo de solución valido')
             return False
         else:
             return True
@@ -59,9 +61,9 @@ class mostrarResultados:
                   [output],
                   [sg.Text('Cantidad de soluciones:'), sg.Text(resultados[0])],
                   [sg.Text('Tiempo utilizado:'), sg.Text(resultados[3])],
-                  [sg.Text('Estados recorridos:'), sg.Text(resultados[2])]
+                  [sg.Text('Estados expandidos:'), sg.Text(resultados[2])]
                   ]
-        self.window = sg.Window('N-Reinas', location=(800, 400))
+        self.window = sg.Window('N-Reinas', location=(400,250))
         self.window.Layout(layout).Finalize()
         output.update(resultados[1])
-        event = self.window.Read() 
+        event = self.window.Read()
