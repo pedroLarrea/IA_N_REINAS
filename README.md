@@ -9,4 +9,5 @@
 - Backtraking
 - Las Vegas
 - Min Conflicto
-
+### para elecutar el prugrama
+- main.py
