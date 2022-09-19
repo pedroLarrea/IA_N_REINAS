@@ -11,4 +11,6 @@
 - Min. Conflicto
 ### Libreria para GUI
 - pip install PySimpleGUI
+### Para ejecutar el programa 
+- menuGUI
 
