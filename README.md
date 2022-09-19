@@ -8,5 +8,7 @@
 ### Resolucion de problema de N-Reinas con 3 metodos distintos
 - Backtraking
 - Las Vegas
-- Min Conflicto
+- Min. Conflicto
+### Libreria para GUI
+- pip install PySimpleGUI
 

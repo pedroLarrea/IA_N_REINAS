@@ -30,7 +30,7 @@ class minimoDeConflictosGUI:
                 estadoVentana = False
             if event == 'calcular':
                 if self.validar(values):
-                    resultados=calcularNReinas(values[0], values[1], "1")  
+                    resultados=calcularNReinas(values[0], values[1], "2")  
                     mostrarResultados(resultados)
 
     def validar(self, values):
