@@ -39,4 +39,4 @@ def menu():
                 print("Presione enter para continuar...")
                 input()
 
-menu()
+# menu()

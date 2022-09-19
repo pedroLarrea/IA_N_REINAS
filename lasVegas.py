@@ -54,6 +54,15 @@ def introducirDatos():
         print("Debe ingresar una opcion valida: 1 o 2")
         graficar = int(input())
 
+def imputsGUI(tamanhoGUI, tiempoMaxGUI, tiempoIteracionGUI, modoGUI):
+    global tamanho, tiempoMax, tiempoIteracion, modo, graficar
+
+    tamanho = int(tamanhoGUI)
+    tiempoMax = float(tiempoMaxGUI)
+    tiempoIteracion = float(tiempoIteracionGUI)
+    modo = int(modoGUI)
+    graficar = 1
+
 
 def initNReinas():
     global tamanho,dominio,columnas
@@ -62,11 +71,12 @@ def initNReinas():
     dominio = list(range(1,tamanho+1))
     columnas = []
 
-def calcularNReinas():
+def calcularNReinas(tamanhoGUI, tiempoMaxGUI, tiempoIteracionGUI, modoGUI):
     global dominio,columnas,tiempoMax,estadosExpandidos, modo
 
     # Carga de datos
-    introducirDatos()
+    #introducirDatos()
+    imputsGUI(tamanhoGUI, tiempoMaxGUI, tiempoIteracionGUI, modoGUI)
 
     # Variables para controlar la finalizacion del algoritmo
     sinSolucion = True
@@ -108,6 +118,10 @@ def calcularNReinas():
 
     print("Estados explorados:",estadosExpandidos)
     print("Tiempo transcurrido : ", fin - inicio," segundos")
+
+    resultados = [cantidadSoluciones,FormatearLista(solucionesEncontradas),estadosExpandidos,fin - inicio]
+
+    return resultados
     
 
 def insertarReina(dominioLocal, dominio, columnas, inicioIteracion):
@@ -210,3 +224,12 @@ def imprimirFormateado(solucion,n):
                     print ("--", end=" ")
             print ("\n")
         print ("\n")
+
+def FormatearLista(lista):
+    solucion = ""
+    for x in lista:
+        solucion += "["
+        for fila in x:
+            solucion += str(fila) + ","
+        solucion += "]\n"
+    return solucion

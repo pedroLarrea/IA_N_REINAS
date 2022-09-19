@@ -1,3 +1,5 @@
+listaDeSoluciones = []
+
 def Valido(solucion,etapa):
 	# Comprueba si el vector solucion construido hasta la etapa cumple con las validaciones del juego
 	for i in range(etapa):
@@ -21,6 +23,10 @@ def esSolucion(solucion,etapa):
     return resp
 
 def imprimirFormateado(solucion,n):
+
+    global listaDeSoluciones
+
+    listaDeSoluciones.append(list(solucion))
     print(solucion)
     for x in range(n):
         for i in range(n):
@@ -85,3 +91,18 @@ def calcularNReinas():
         
     print("Haciendo Backtracking...")
     inicializarMetodo(n, modo)
+
+def inicializarMetodoGUI(n, modo):
+    global listaDeSoluciones
+    listaDeSoluciones = []
+    inicializarMetodo(int(n),int(modo))
+    return FormatearLista(listaDeSoluciones)
+
+def FormatearLista(lista):
+    solucion = ""
+    for x in lista:
+        solucion += "["
+        for fila in x:
+            solucion += str(fila) + ","
+        solucion += "]\n"
+    return solucion
